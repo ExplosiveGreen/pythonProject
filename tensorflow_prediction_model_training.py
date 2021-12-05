@@ -20,12 +20,12 @@ def bestScore(x,y):
         if acc > best:
             best = acc
             list1.append(acc)
-            with open("../resource/tensorflow_prediction_model_training/studentmodel.pickle", "wb") as f:
+            with open("resource/tensorflow_prediction_model_training/studentmodel.pickle", "wb") as f:
                 pickle.dump(linear, f)
     return sum(list1)/len(list1)
 
 def main():
-    data = pd.read_csv("../resource/tensorflow_prediction_model_training/student-mat.csv", sep=";")
+    data = pd.read_csv("resource/tensorflow_prediction_model_training/student-mat.csv", sep=";")
     data = shuffle(data[["G1", "G2", "G3", "studytime", "failures", "absences"]])
     predict = "G3"
     x = np.array(data.drop([predict], 1))
@@ -34,7 +34,7 @@ def main():
         x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y, test_size=0.1)
         '''bestScore(x, y,)'''
 
-    pickle_in = open("../resource/tensorflow_prediction_model_training/studentmodel.pickle", "rb")
+    pickle_in = open("resource/tensorflow_prediction_model_training/studentmodel.pickle", "rb")
     linear = pickle.load(pickle_in)
 
     print("Score: \n",linear.score(x_test, y_test))

@@ -6,7 +6,7 @@ from sklearn import preprocessing
 
 
 if __name__ == '__main__':
-    data = shuffle(pd.read_csv("../resource/tensorflow_recognision_trainning/car.data"))
+    data = shuffle(pd.read_csv("resource/tensorflow_recognision_trainning/car.data"))
 
     le = preprocessing.LabelEncoder()
     buying = le.fit_transform(list(data["buying"]))
