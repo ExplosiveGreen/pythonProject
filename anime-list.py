@@ -84,6 +84,7 @@ def anime_list(flag=True):
 
 #create a gui representation for the shuffle anime list
 def gui_anime_list():
+    mouse = []
     import pygame
     import pyperclip
     pygame.init()
@@ -155,4 +156,4 @@ def shuffle(anime):
 
 
 if __name__ == '__main__':
-    anime_list()
+    gui_anime_list()
