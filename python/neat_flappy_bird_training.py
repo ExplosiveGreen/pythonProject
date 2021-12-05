@@ -16,10 +16,10 @@ DRAW_LINES = False
 WIN = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pygame.display.set_caption("Flappy Bird")
 
-pipe_img = pygame.transform.scale2x(pygame.image.load(os.path.join("resource/neat_flappy_bird_training/imgs", "pipe.png")).convert_alpha())
-bg_img = pygame.transform.scale(pygame.image.load(os.path.join("resource/neat_flappy_bird_training/imgs", "bg.png")).convert_alpha(), (600, 900))
-bird_images = [pygame.transform.scale2x(pygame.image.load(os.path.join("resource/neat_flappy_bird_training/imgs", "bird" + str(x) + ".png"))) for x in range(1, 4)]
-base_img = pygame.transform.scale2x(pygame.image.load(os.path.join("resource/neat_flappy_bird_training/imgs", "base.png")).convert_alpha())
+pipe_img = pygame.transform.scale2x(pygame.image.load(os.path.join("../resource/neat_flappy_bird_training/imgs", "pipe.png")).convert_alpha())
+bg_img = pygame.transform.scale(pygame.image.load(os.path.join("../resource/neat_flappy_bird_training/imgs", "bg.png")).convert_alpha(), (600, 900))
+bird_images = [pygame.transform.scale2x(pygame.image.load(os.path.join("../resource/neat_flappy_bird_training/imgs", "bird" + str(x) + ".png"))) for x in range(1, 4)]
+base_img = pygame.transform.scale2x(pygame.image.load(os.path.join("../resource/neat_flappy_bird_training/imgs", "base.png")).convert_alpha())
 
 gen = 0
 
@@ -430,5 +430,5 @@ if __name__ == '__main__':
     # here so that the script will run successfully regardless of the
     # current working directory.
     local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, 'resource/neat_flappy_bird_training/config-feedforward.txt')
+    config_path = os.path.join(local_dir, '../resource/neat_flappy_bird_training/config-feedforward.txt')
     run(config_path)

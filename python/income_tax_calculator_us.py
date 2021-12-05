@@ -30,7 +30,7 @@ def get_income_tax_info(flag):
                 lines.append(sys.maxsize)
             map.append(lines)
     else:
-        for row in open("resource/income_tax_calculator_us/tax_info.txt", "r").read().splitlines():
+        for row in open("../resource/income_tax_calculator_us/tax_info.txt", "r").read().splitlines():
             lines = list()
             # get first two cell in row cell 1 is the level and cell 2 is the range
             tds = row.split('|')

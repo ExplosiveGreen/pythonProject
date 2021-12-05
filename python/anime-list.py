@@ -41,13 +41,13 @@ def get_data():
             temp = json.loads(html.text)
         if temp:
             data.extend(temp)
-        f = open("resource/anime_list/anime_list.txt", "w")
+        f = open("../resource/anime_list/anime_list.txt", "w")
         f.write(json.dumps(data))
         f.close()
         return data
 
     except requests.ConnectionError:
-        f = open("resource/anime_list/anime_list.txt", "r")
+        f = open("../resource/anime_list/anime_list.txt", "r")
         data = json.loads(f.read())
         f.close()
         return data

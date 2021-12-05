@@ -61,7 +61,7 @@ if __name__ == '__main__':
     model.save("resource/tensorflow_text_classification/model.h5")
     '''
     model = keras.models.load_model("resource/tensorflow_text_classification/model.h5")
-    with open("resource/tensorflow_text_classification/review.txt") as f:
+    with open("../resource/tensorflow_text_classification/review.txt") as f:
         for line in f.readlines():
             nline = line.replace(",", "").replace(".", "").replace(":", "").replace("(", "").replace(")", "").replace(
                 "\"", "").strip().split(" ")
