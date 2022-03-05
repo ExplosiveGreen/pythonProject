@@ -1,4 +1,4 @@
-import random as rnd
+from random import randint
 import json
 import requests
 
@@ -82,71 +82,64 @@ def anime_list(flag=True):
     else:
         return shuffle1
 
+def modText(text,word_count):
+    text=text.split(" ")
+    add=0
+    for i in range((len(text) -1)//word_count):
+        text.insert((i+1)*word_count+add, "\n")
+        add+=1
+    return " ".join(text)
 #create a gui representation for the shuffle anime list
 def gui_anime_list():
-    mouse = []
-    import pygame
+    import tkinter as tk
+    from tkinter.font import Font
     import pyperclip
-    pygame.init()
-    screen = pygame.display.set_mode((720, 720))
-    color = (255, 255, 255)
-    color_light = (170, 170, 170)
-    color_dark = (100, 100, 100)
-    width = screen.get_width()
-    height = screen.get_height()
-    small_font = pygame.font.SysFont('Corbel', 35)
-    buttons = list()
-    buttons.append(small_font.render('next', True, color))
-    buttons.append(small_font.render('list', True, color))
-    buttons.append(small_font.render('copy', True, color))
-    buttons.append(small_font.render('quit', True, color))
+    window = tk.Tk()
+    window.geometry("720x720")
+    color = '#ffffff'
+    color_dark = '#646464'
+    bg = '#3c193c'
+    width_rasio= 750/40
+    height_rasio = 750/19
+    font = Font(size=20)
+    window.update()
+    width = window.winfo_width()
+    height = window.winfo_height()
     index = 0
-    word_count = 4
+    word_count =4
+    window.configure(bg=bg)
     anime = anime_list(False)
-    while True:
+    anime_title = tk.Label(text=modText(str(anime[index]),word_count),bg=bg,font=font,fg=color,width=int(width/width_rasio),height=int(height/height_rasio/2))
+    anime_title.pack()
+    def next():
+        nonlocal index
+        index += 1
+        if index >= len(anime):
+            window.destroy()
+        else:
+            anime_title.config(text=modText(str(anime[index]),word_count))
+    def list():
+        str1=""
+        for i in range(index, len(anime)):
+            str1+=u"{}:{}\n".format(i, anime[i])
+        pyperclip.copy(str1)
+        print(str1)
 
-        for ev in pygame.event.get():
+    def quit():
+        window.destroy()
+    def copy():
+        pyperclip.copy(u'{}'.format(anime[index]))
 
-            if ev.type == pygame.QUIT:
-                pygame.quit()
-
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if height / 2 <= mouse[1] <= height / 2 + 40:
-                    if index < len(anime):
-                        index += 1
-                    else:
-                        pygame.quit()
-                if height / 2 + 41 <= mouse[1] <= height / 2 + 81:
-                    for i in range(index, len(anime)):
-                        print(u"{}:{}".format(i, anime[i]))
-                if height / 2 + 82 <= mouse[1] <= height / 2 + 122:
-                    pyperclip.copy(u'{}'.format(anime[index]))
-                if height / 2 + 123 <= mouse[1] <= height / 2 + 163:
-                    pygame.quit()
-        screen.fill((60, 25, 60))
-        mouse = pygame.mouse.get_pos()
-        for key, j in enumerate(range(0, 124, 41)):
-            if height / 2 + j <= mouse[1] <= height / 2 + j + 40:
-                pygame.draw.rect(screen, color_light, [0, height / 2 + j, 720, 40])
-            else:
-                pygame.draw.rect(screen, color_dark, [0, height / 2 + j, 720, 40])
-            screen.blit(buttons[key], ((width - buttons[key].get_width()) / 2, height / 2 + j))
-        anime_title = str(anime[index]).split(" ")
-        for pos in range(len(anime_title)//word_count + (0 if len(anime_title) % word_count == 0 else 1)):
-            sentence = ""
-            for pos2 in range(word_count):
-                if pos*word_count + pos2 < len(anime_title):
-                    sentence += anime_title[pos*word_count + pos2]+" "
-            text = small_font.render(sentence, True, color)
-            screen.blit(text, ((width - text.get_width()) / 2, height / 4 + pos*small_font.get_height()))
-        pygame.display.update()
-
+    tk.Button(window, text="next", command=next,font=font,bg=color_dark,fg=color,width=width).pack()
+    tk.Button(window, text="list", command=list,font=font,bg=color_dark,fg=color,width=width).pack()
+    tk.Button(window, text="copy", command=copy,font=font,bg=color_dark, fg=color, width=width).pack()
+    tk.Button(window, text="quit", command=quit,font=font,bg=color_dark,fg=color,width=width).pack()
+    window.mainloop()
 #shuffle the list
 def shuffle(anime):
-    rnd.seed()
     shuffle_anime = list()
     while len(anime) > 0:
-        index = rnd.randint(0, len(anime) - 1)
+        index = randint(0, len(anime) - 1)
         anime1, flag = anime[index].__str__()
         if not flag:
             del anime[index]
