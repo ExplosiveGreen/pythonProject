@@ -190,4 +190,4 @@ def main(income, crypto, choice, stock, losses):
 
 
 if __name__ == '__main__':
-    main(12000, 0, 'n', 0, 0)
+    main(10956, 0, 'n', 0, 0)
