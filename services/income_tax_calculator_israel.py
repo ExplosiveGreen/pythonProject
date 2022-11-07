@@ -166,8 +166,7 @@ def number_beautifier(number):
     return "".join(num1)
 
 
-# user gui
-def main(income, crypto, choice, stock, losses):
+def run(income, crypto, choice, stock, losses):
     if choice == 'y' or crypto > 10000:
         income += crypto
     else:
@@ -189,5 +188,15 @@ def main(income, crypto, choice, stock, losses):
     return {"result": result}
 
 
+def main():
+    income = int(input("input monthly income:"))
+    crypto = int(input("input crypto currency profits 0 if none:"))
+    choice = input("input of you mine or bay that crypto (n|y) n if you dont have crypto profits:")
+    stock = int(input("input stocks profits 0 if none:"))
+    losses = int(input("input combined losses if you lost money on ether stocks or crypto 0 if none:"))
+    run(income, crypto, choice, stock, losses)
+
+
 if __name__ == '__main__':
-    main(10956, 0, 'n', 0, 0)
+    main()
+    #run(10000, 0, 'n', 0, 0)

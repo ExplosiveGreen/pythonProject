@@ -1,11 +1,11 @@
 from random import randint
-from random import SystemRandom
 import json
 import requests
 import os
 
-#a class of a tv show series.
-#created in order for the random not give me a 2 season of tv show befor i watch the first season
+
+# a class of a tv show series.
+# created in order for the random not give me a 2 season of tv show before I watch the first season
 class Series:
     def __init__(self, name):
         self.name = name
@@ -26,9 +26,10 @@ class Series:
         self.index += 1
         return ans, flag
 
-#geting my anime list from the website myanimelist
-#if it can reach the website it use the text file
-#hard copy of the anime list from the last time it manage to reach the website
+
+# getting my anime list from the website MyAnimeList
+# if it can't reach the website it uses the text file
+# hard copy of the anime list from the last time it reached the website
 def get_data():
     path = os.path.dirname(__file__) + "\\resource\\anime_list\\anime_list.txt"
     try:
@@ -55,8 +56,9 @@ def get_data():
         f.close()
         return data
 
-#cleaning up the anime list raw data and shuffle the list
-#flag if True the function will print the entier shuffled list
+
+# cleaning up the anime list raw data and shuffle the list
+# flag if True the function will print all shuffled list
 def anime_list():
     anime = list()
     data = get_data()
@@ -76,16 +78,19 @@ def anime_list():
                 else:
                     anime.append(Series(r["anime_title"]))
 
-    return {'result':shuffle(anime)}
+    return {'result': shuffle(anime)}
 
-def modText(text,word_count):
-    text=text.split(" ")
-    add=0
-    for i in range((len(text) -1)//word_count):
+
+def modText(text, word_count):
+    text = text.split(" ")
+    add = 0
+    for i in range((len(text) - 1)//word_count):
         text.insert((i+1)*word_count+add, "\n")
-        add+=1
+        add += 1
     return " ".join(text)
-#create a gui representation for the shuffle anime list
+
+
+# create a gui representation for the shuffle anime list
 def gui_anime_list():
     import tkinter as tk
     from tkinter.font import Font
@@ -95,43 +100,48 @@ def gui_anime_list():
     color = '#ffffff'
     color_dark = '#646464'
     bg = '#3c193c'
-    width_rasio= 750/40
-    height_rasio = 750/19
+    width_ratio = 750/40
+    height_ratio = 750/19
     font = Font(size=20)
     window.update()
     width = window.winfo_width()
     height = window.winfo_height()
     index = 0
-    word_count =4
+    word_count = 4
     window.configure(bg=bg)
     anime = anime_list()['result']
-    anime_title = tk.Label(text=modText(str(anime[index]),word_count),bg=bg,font=font,fg=color,width=int(width/width_rasio),height=int(height/height_rasio/2))
+    anime_title = tk.Label(text=modText(str(anime[index]), word_count), bg=bg, font=font, fg=color, width=int(width/width_ratio), height=int(height/height_ratio/2))
     anime_title.pack()
-    def next():
+
+    def Next():
         nonlocal index
         index += 1
         if index >= len(anime):
             window.destroy()
         else:
-            anime_title.config(text=modText(str(anime[index]),word_count))
-    def list():
-        str1=""
+            anime_title.config(text=modText(str(anime[index]), word_count))
+
+    def List():
+        str1 = ""
         for i in range(index, len(anime)):
-            str1+=u"{}:{}\n".format(i, anime[i])
+            str1 += u"{}:{}\n".format(i, anime[i])
         pyperclip.copy(str1)
         print(str1)
 
-    def quit():
+    def Quit():
         window.destroy()
+
     def copy():
         pyperclip.copy(u'{}'.format(anime[index]))
 
-    tk.Button(window, text="next", command=next,font=font,bg=color_dark,fg=color,width=width).pack()
-    tk.Button(window, text="list", command=list,font=font,bg=color_dark,fg=color,width=width).pack()
-    tk.Button(window, text="copy", command=copy,font=font,bg=color_dark, fg=color, width=width).pack()
-    tk.Button(window, text="quit", command=quit,font=font,bg=color_dark,fg=color,width=width).pack()
+    tk.Button(window, text="next", command=Next, font=font, bg=color_dark, fg=color, width=width).pack()
+    tk.Button(window, text="list", command=List, font=font, bg=color_dark, fg=color, width=width).pack()
+    tk.Button(window, text="copy", command=copy, font=font, bg=color_dark, fg=color, width=width).pack()
+    tk.Button(window, text="quit", command=Quit, font=font, bg=color_dark, fg=color, width=width).pack()
     window.mainloop()
-#shuffle the list
+
+
+# shuffle the list
 def shuffle(anime):
     shuffle_anime = list()
     while len(anime) > 0:

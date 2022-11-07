@@ -1,0 +1,7 @@
+FLASK_APP=api
+FLASK_ENV=development
+FLASK_SETTINGS=config
+FLASK_RUN_CERT=cert/cert.pem
+FLASK_RUN_KEY=cert/key.pem
+FLASK_RUN_HOST=localhost
+FLASK_RUN_PORT=5600
