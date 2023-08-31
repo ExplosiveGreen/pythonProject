@@ -3,7 +3,7 @@ from models.users import users
 
 
 def login():
-    data = request.form
+    data = request.json
     username = data.get('username')
     password = data.get('password')
     if username and password:

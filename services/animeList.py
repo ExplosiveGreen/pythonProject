@@ -1,6 +1,6 @@
 from random import randint
 import json
-import requests
+import requests_cache
 import os
 
 
@@ -31,7 +31,9 @@ class Series:
 # if it can't reach the website it uses the text file
 # hard copy of the anime list from the last time it reached the website
 def get_data():
-    path = os.path.dirname(__file__) + "\\resource\\anime_list\\anime_list.txt"
+    text_path = os.path.dirname(__file__) + "\\resource\\anime_list\\anime_list.txt"
+    cache_path = os.path.dirname(__file__) + "\\resource\\anime_list\\cache"
+    requests = requests_cache.CachedSession(cache_path, backend='sqlite', expire_after=86400)
     try:
         offset = 0
         html = requests.get("https://myanimelist.net/animelist/ExplosiveGreen/load.json?status=2")
@@ -45,13 +47,13 @@ def get_data():
             temp = json.loads(html.text)
         if temp:
             data.extend(temp)
-        f = open(path, "w")
+        f = open(text_path, "w")
         f.write(json.dumps(data))
         f.close()
         return data
 
     except requests.ConnectionError:
-        f = open(path, "r")
+        f = open(text_path, "r")
         data = json.loads(f.read())
         f.close()
         return data
@@ -64,19 +66,19 @@ def anime_list():
     data = get_data()
     pos = "ExplosiveGreen"
     for r in data:
-        if r["anime_media_type_string"] != u'OVA' and r["anime_media_type_string"] != u'Movie' and \
-                r["anime_media_type_string"] != u'Special':
-            if pos in str(r["anime_title"]):
-                if r["anime_title_eng"]:
-                    anime[len(anime) - 1].add(r["anime_title_eng"])
-                else:
-                    anime[len(anime) - 1].add(r["anime_title"])
+        if r["anime_media_type_string"] == u'OVA' or r["anime_media_type_string"] == u'Movie' or r["anime_media_type_string"] == u'Special':
+            continue
+        if pos in str(r["anime_title"]):
+            if r["anime_title_eng"]:
+                anime[len(anime) - 1].add(r["anime_title_eng"])
             else:
-                pos = str(r["anime_title"])
-                if r["anime_title_eng"]:
-                    anime.append(Series(r["anime_title_eng"]))
-                else:
-                    anime.append(Series(r["anime_title"]))
+                anime[len(anime) - 1].add(r["anime_title"])
+        else:
+            pos = str(r["anime_title"])
+            if r["anime_title_eng"]:
+                anime.append(Series(r["anime_title_eng"]))
+            else:
+                anime.append(Series(r["anime_title"]))
 
     return {'result': shuffle(anime)}
 
@@ -84,8 +86,8 @@ def anime_list():
 def modText(text, word_count):
     text = text.split(" ")
     add = 0
-    for i in range((len(text) - 1)//word_count):
-        text.insert((i+1)*word_count+add, "\n")
+    for i in range((len(text) - 1) // word_count):
+        text.insert((i + 1) * word_count + add, "\n")
         add += 1
     return " ".join(text)
 
@@ -100,8 +102,8 @@ def gui_anime_list():
     color = '#ffffff'
     color_dark = '#646464'
     bg = '#3c193c'
-    width_ratio = 750/40
-    height_ratio = 750/19
+    width_ratio = 750 / 40
+    height_ratio = 750 / 19
     font = Font(size=20)
     window.update()
     width = window.winfo_width()
@@ -110,7 +112,8 @@ def gui_anime_list():
     word_count = 4
     window.configure(bg=bg)
     anime = anime_list()['result']
-    anime_title = tk.Label(text=modText(str(anime[index]), word_count), bg=bg, font=font, fg=color, width=int(width/width_ratio), height=int(height/height_ratio/2))
+    anime_title = tk.Label(text=modText(str(anime[index]), word_count), bg=bg, font=font, fg=color,
+                           width=int(width / width_ratio), height=int(height / height_ratio / 2))
     anime_title.pack()
 
     def Next():
@@ -126,7 +129,7 @@ def gui_anime_list():
         for i in range(index, len(anime)):
             str1 += u"{}:{}\n".format(i, anime[i])
         pyperclip.copy(str1)
-        print(str1)
+        # print(str1)
 
     def Quit():
         window.destroy()

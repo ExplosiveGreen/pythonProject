@@ -10,5 +10,5 @@ from dotenv import load_dotenv
 ENV = "development"
 DEVELOPMENT = True
 SECRET_KEY = os.urandom(32)
-SERVER_NAME = "localhost:5600"
+SERVER_NAME = "localhost:5000"
 DEBUG = True

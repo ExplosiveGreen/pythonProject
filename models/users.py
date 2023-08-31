@@ -1,3 +1,4 @@
+from decouple import config
 # from flask_sqlalchemy import SQLAlchemy
 # db = SQLAlchemy()
 # class User(db.Model):
@@ -16,5 +17,5 @@
 #             'address': self.address
 #         }
 users = [
-    {'username': "admin", 'password': "123456"},
+    {'username': config('USER'), 'password': config('PASS')},
 ]
