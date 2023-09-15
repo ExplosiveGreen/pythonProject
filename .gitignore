@@ -4,3 +4,4 @@ cert/
 .flaskenv
 __pycache__
 .env
+services/resource/whisper-trainer
