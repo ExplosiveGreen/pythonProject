@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Union
 import evaluate
 import os
 import shutil
-
+import whisper
 
 @dataclass
 class DataCollatorSpeechSeq2SeqWithPadding:
@@ -148,5 +148,12 @@ class WhisperTraining:
         trainer.save_model(f"./resource/whisper-trainer/wisper-small-{self.languages[lang]}-test1")
 
 
+def use_model():
+    model = whisper.load_model("./resource/whisper-trainer/wisper-small-english-test1/pytorch_model.bin")
+    result = model.transcribe("./resource/whisper-trainer/test.aac")
+    print(result["text"])
+
+
 if __name__ == '__main__':
     WhisperTraining()
+    use_model()

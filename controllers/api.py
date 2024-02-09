@@ -39,7 +39,7 @@ def tensorflow_image_recognition():
 
 
 def tensorflow_prediction_model_training():
-    return "tensorflow_prediction_model_training"
+    return "linear_regression_model_training"
 
 
 def tensorflow_recognition_training():

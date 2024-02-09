@@ -1,0 +1,17 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+ScreenManager:
+    transition: NoTransition()
+    Screen:
+        name: 'home'
+        BoxLayout:
+            orientation: "vertical"
+            Button:
+                text: "Go to settings"
+                on_release: app.root.current = "settings"
+    Screen:
+        name: 'settings'
+        BoxLayout:
+            orientation: "vertical"
+            Button:
+                text: "Go to Home page"
+                on_release: app.root.current = "home"
